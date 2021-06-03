@@ -1,0 +1,26 @@
+<?php
+$client = curl_init('http://localhost/PHP-API-CRUD/api/apiHandler.php?action=outputData');
+curl_setopt($client, CURLOPT_RETURNTRANSFER, 1);
+$response = curl_exec($client);
+$result = json_decode($response);
+
+$output = '';
+
+if(count($result) > 0){
+    foreach($result as $row){
+        $output .= '
+         <tr>
+               <td>'.$row->id.'</td>
+                <td>'.$row->depart.'</td>
+                <td>'.$row->destination.'</td>
+                <td><button type="button" name="edit" class="btn btn-warning btn-xs edit" id="'.$row->id.'">Edit</button></td>
+   <td><button type="button" name="delete" class="btn btn-danger btn-xs delete" id="'.$row->id.'">Delete</button></td>
+            </tr>
+        ';
+    }
+}else{
+    $output .= '<tr><td colspan="3" align="center">Not found!</td></tr>';
+}
+
+echo $output;
+?>
